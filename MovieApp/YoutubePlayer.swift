@@ -31,8 +31,6 @@ struct YoutubePlayer: UIViewRepresentable {
             src: "https://www.youtube-nocookie.com/embed/\(videoId)?playsinline=1&modestbranding=1&rel=0&enablejsapi=1&origin=https://www.youtube-nocookie.com"
         )
         
-        print(html)
-        
         webView.loadHTMLString(html, baseURL: URL(string: "https://www.youtube-nocookie.com"))
     }
     

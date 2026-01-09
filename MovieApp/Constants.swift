@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct Constants {
+//    TEXT STRINGS
     static let homeString = "Home"
     static let upcomingString = "Upcoming"
     static let searchString = "Search"
@@ -18,13 +19,18 @@ struct Constants {
     static let trendingTVString = "Trending TV"
     static let topRatedMovieString = "Top Rated Movies"
     static let topRatedTVString = "Top Rated TV"
-    
+    static let movieSearchString = "Movie Search"
+    static let tvSearchString = "TV Search"
+    static let moviePlaceHolderString = "Search for a Movie"
+    static let tvPlaceHolderString = "Search for a TV Show"
     
 //    ICONS
     static let homeIconString = "house"
     static let upcomingIconString = "play.circle"
     static let searchIconString = "magnifyingglass"
     static let downloadIconString = "arrow.down.to.line"
+    static let movieIconString = "movieclapper"
+    static let tvIconString = "tv"
     
 //    HOME VIEW
     static let testTitleURL = "https://image.tmdb.org/t/p/w500/nnl6OWkyPpuMm595hmAxNW3rZFn.jpg"

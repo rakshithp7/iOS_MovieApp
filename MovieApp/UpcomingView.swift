@@ -21,8 +21,13 @@ struct UpcomingView: View {
                         .frame(width: geo.size.width, height: geo.size.height)
                 case .success:
                     VerticalListView(titles: viewModel.upcomingMovies)
-                case .failed(let underlyingError):
-                    Text(underlyingError.localizedDescription)
+                case .failed(let error):
+                    Text(error.localizedDescription)
+                        .foregroundStyle(.red)
+                        .padding()
+                        .background(.ultraThinMaterial)
+                        .clipShape(.rect(cornerRadius: 10))
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
             .task {

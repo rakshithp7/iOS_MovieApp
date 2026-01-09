@@ -68,7 +68,12 @@ struct HomeView: View {
                             }
                         }
                     case .failed(let error):
-                        Text("Error: \(error.localizedDescription)")
+                        Text(error.localizedDescription)
+                            .foregroundStyle(.red)
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .clipShape(.rect(cornerRadius: 10))
+                            .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
                 .task {
