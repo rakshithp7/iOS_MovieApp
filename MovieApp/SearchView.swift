@@ -47,11 +47,7 @@ struct SearchView: View {
                         .padding()
                     case .failed(let error):
                         Text(error.localizedDescription)
-                            .foregroundStyle(.red)
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .clipShape(.rect(cornerRadius: 10))
-                            .frame(maxWidth: .infinity, alignment: .center)
+                            .errorMessage()
                     }
                 }
                 .navigationTitle(searchByMovies ? Constants.movieSearchString : Constants.tvSearchString)

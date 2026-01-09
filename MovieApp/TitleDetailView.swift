@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TitleDetailView: View {
+    @Environment(\.dismiss) var dismiss
     let title: Title
     var titleName: String {
         return title.name ?? title.title ?? ""
@@ -16,25 +17,37 @@ struct TitleDetailView: View {
     
     var body: some View {
         GeometryReader { geo in
-            switch viewModel.videoIdStatus {
-            case .notStarted:
-                EmptyView()
-            case .fetching:
-                ProgressView()
-                    .frame(width: geo.size.width, height: geo.size.height)
-            case .success:
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-    //                    AsyncImage(url: URL(string: title.posterPath ?? "")) { image in
-    //                        image
-    //                            .resizable()
-    //                            .scaledToFit()
-    //                    } placeholder: {
-    //                        ProgressView()
-    //                    }.frame(width: geo.size.width, height: geo.size.height * 0.85)
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    switch viewModel.videoIdStatus {
+                    case .notStarted:
+                        EmptyView()
+                    case .fetching:
+                        ProgressView()
+                            .frame(width: geo.size.width, height: geo.size.height)
+                    case .success:
                         YoutubePlayer(videoId: viewModel.videoId)
                             .aspectRatio(1.3, contentMode: .fit)
-                        
+                    case .failed(let underlyingError):
+                        AsyncImage(url: URL(string: title.posterPath ?? "")) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .overlay {
+                                    LinearGradient(
+                                        stops: [Gradient.Stop(color: .clear, location: 0.8), Gradient.Stop(color: .gradient, location: 1)],
+                                        startPoint: .top,
+                                        endPoint: .bottom)
+                                }
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        Text("Could not load trailer. Error: " + underlyingError.localizedDescription)
+                            .errorMessage()
+                            .padding()
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
                         Text(titleName)
                             .bold()
                             .font(.title2)
@@ -43,25 +56,22 @@ struct TitleDetailView: View {
                         Text(title.overview ?? "")
                             .padding(5)
                         
+                        Spacer()
+                        
                         HStack {
                             Spacer()
                             
-                            Button {
-                                
-                            } label: {
-                                Text(Constants.downloadString)
-                                    .ghostButton()
+                            DownloadButton(title: title, displayName: titleName) {
+                                dismiss()
                             }
                             
                             Spacer()
                         }
-                        
-                        
                     }
+                    .padding()
                 }
-            case .failed(let underlyingError):
-                Text(underlyingError.localizedDescription)
             }
+            .ignoresSafeArea(edges: .top)
         }
         .task {
             await viewModel.getVideoId(for: titleName)
@@ -72,3 +82,4 @@ struct TitleDetailView: View {
 #Preview {
     TitleDetailView(title: Title.previewTitles[0])
 }
+

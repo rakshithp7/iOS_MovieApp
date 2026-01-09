@@ -26,32 +26,35 @@ struct HomeView: View {
                             AsyncImage(url: URL(string: viewModel.heroTitle.posterPath ?? "")) { image in
                                 image
                                     .resizable()
-                                    .scaledToFit()
+                                    .scaledToFill()
                                     .overlay {
                                         LinearGradient(
-                                            stops: [Gradient.Stop(color: .clear, location: 0.8), Gradient.Stop(color: .gradient, location: 1)],
+                                            stops: [Gradient.Stop(color: .clear, location: 0.95), Gradient.Stop(color: .gradient, location: 1)],
                                             startPoint: .top,
                                             endPoint: .bottom)
                                     }
                             } placeholder: {
                                 ProgressView()
                             }
-                            .frame(width: geo.size.width, height: geo.size.height * 0.85)
-                            
-                            HStack {
-                                Button {
-                                    titleDetailPath.append(viewModel.heroTitle)
-                                } label : {
-                                    Text(Constants.playString)
-                                        .ghostButton()
+                            .frame(width: geo.size.width, height: geo.size.height * 0.95)
+                            .overlay(alignment: .bottom) {
+                                HStack(spacing: 20) {
+                                    Button {
+                                        titleDetailPath.append(viewModel.heroTitle)
+                                    } label : {
+                                        Label {
+                                            Text(Constants.playString)
+                                        } icon: {
+                                            Image(systemName: Constants.playButtonIconString)
+                                                .foregroundStyle(.buttonBorder)
+                                                .opacity(0.9)
+                                        }
+                                    }
+                                    .ghostButton()
+
+                                    DownloadButton(title: viewModel.heroTitle)
                                 }
-                                
-                                Button {
-                                    
-                                } label : {
-                                    Text(Constants.downloadString)
-                                        .ghostButton()
-                                }
+                                .padding(.bottom, 24) // lift off the very bottom a bit
                             }
                             
                             HorizontalListView(header: Constants.trendingMovieString, titles: viewModel.trendingMovies) { title in
@@ -69,13 +72,11 @@ struct HomeView: View {
                         }
                     case .failed(let error):
                         Text(error.localizedDescription)
-                            .foregroundStyle(.red)
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .clipShape(.rect(cornerRadius: 10))
-                            .frame(maxWidth: .infinity, alignment: .center)
+                            .errorMessage()
+                            .frame(width: geo.size.width, height: geo.size.height)
                     }
                 }
+                .ignoresSafeArea(edges: .top)
                 .task {
                     await viewModel.getTitles()
                 }

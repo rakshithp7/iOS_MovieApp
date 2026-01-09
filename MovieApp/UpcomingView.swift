@@ -20,14 +20,11 @@ struct UpcomingView: View {
                     ProgressView()
                         .frame(width: geo.size.width, height: geo.size.height)
                 case .success:
-                    VerticalListView(titles: viewModel.upcomingMovies)
+                    VerticalListView(titles: viewModel.upcomingMovies, canDelete: false)
                 case .failed(let error):
                     Text(error.localizedDescription)
-                        .foregroundStyle(.red)
-                        .padding()
-                        .background(.ultraThinMaterial)
-                        .clipShape(.rect(cornerRadius: 10))
-                        .frame(maxWidth: .infinity, alignment: .center)
+                        .errorMessage()
+                        .frame(width: geo.size.width, height: geo.size.height)
                 }
             }
             .task {

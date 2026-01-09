@@ -19,8 +19,8 @@ struct ContentView: View {
             Tab(Constants.searchString, systemImage: Constants.searchIconString){
                 SearchView()
             }
-            Tab(Constants.downloadString, systemImage: Constants.downloadIconString){
-                Text(Constants.downloadString)
+            Tab(Constants.downloadsString, systemImage: Constants.downloadIconString){
+                DownloadView()
             }
         }
     }
