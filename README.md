@@ -20,6 +20,10 @@ trailer, and save titles to your downloads list.
 
 ![Home](Screenshots/HomeView.gif)
 
+### Title Details
+
+![Home](Screenshots/TitleView.gif)
+
 ### Upcoming
 
 ![Upcoming](Screenshots/UpcomingView.gif)
